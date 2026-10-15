@@ -1,36 +1,50 @@
+
 package com.Cyan.retoCacao.model;
 
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "lote")
 public class Lote {
 
-    private String id;
+    @Id
+    @Column(name = "codigo", length = 20)
+    private String codigo;
+
+    @Column(name = "productor", nullable = false, length = 120)
     private String productor;
+
+    @Column(name = "origen", nullable = false, length = 150)
     private String origen;
+
+    @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
+
+    @Column(name = "cantidad", nullable = false, precision = 10, scale = 2)
     private BigDecimal cantidad;
-    private String unidad;
+
+    @Column(name = "unidad", nullable = false, length = 10)
+    private String unidad = "kg";
+
+    @Column(name = "estado_lote", nullable = false, length = 20)
+    private String estadoLote = "PENDIENTE";
+
+    @Column(name = "fecha_creacion_registro_lote",
+            insertable = false, updatable = false)
+    private LocalDateTime fechaCreacionRegistroLote;
 
     public Lote() {
     }
 
-    public Lote(String id, String productor, String origen,
-                LocalDate fecha, BigDecimal cantidad, String unidad) {
-        this.id = id;
-        this.productor = productor;
-        this.origen = origen;
-        this.fecha = fecha;
-        this.cantidad = cantidad;
-        this.unidad = unidad;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
     public String getProductor() {
@@ -71,5 +85,17 @@ public class Lote {
 
     public void setUnidad(String unidad) {
         this.unidad = unidad;
+    }
+
+    public String getEstadoLote() {
+        return estadoLote;
+    }
+
+    public void setEstadoLote(String estadoLote) {
+        this.estadoLote = estadoLote;
+    }
+
+    public LocalDateTime getFechaCreacionRegistroLote() {
+        return fechaCreacionRegistroLote;
     }
 }
