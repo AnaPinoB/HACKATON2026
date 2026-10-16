@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 // Transacciones reales confirmadas: el bloqueo se prueba entre conexiones distintas.
 @SpringBootTest(properties = {"logging.level.root=WARN", "spring.jpa.show-sql=false"})
+@org.springframework.security.test.context.support.WithMockUser(username = "admin-prueba", roles = "ADMINISTRADOR")
 class RegistroOperacionTests {
     @Autowired RegistroOperacionService service;
     @Autowired LoteService lotes;
@@ -152,12 +153,15 @@ class RegistroOperacionTests {
     }
     private java.util.List<String> concurrentes(OperacionSolicitud a, OperacionSolicitud b) throws Exception {
         CountDownLatch inicio = new CountDownLatch(1);
+        var autenticacion = org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication();
         try (var pool = Executors.newFixedThreadPool(2)) {
             var tareas = new java.util.ArrayList<Future<String>>();
             for (var s : java.util.List.of(a, b)) tareas.add(pool.submit(() -> {
                 inicio.await();
+                org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(autenticacion);
                 try { return service.registrar(s).creada() ? "creada" : "reenvio"; }
                 catch (ResponseStatusException ex) { if (ex.getStatusCode().value() == 409) return "conflicto"; throw ex; }
+                finally { org.springframework.security.core.context.SecurityContextHolder.clearContext(); }
             }));
             inicio.countDown();
             return java.util.List.of(tareas.get(0).get(20, TimeUnit.SECONDS), tareas.get(1).get(20, TimeUnit.SECONDS));

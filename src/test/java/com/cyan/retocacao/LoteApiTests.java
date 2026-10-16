@@ -18,6 +18,7 @@ import static org.hamcrest.Matchers.*;
 
 @SpringBootTest(properties = {"logging.level.root=WARN", "spring.jpa.show-sql=false"})
 @Transactional
+@org.springframework.security.test.context.support.WithMockUser(username = "admin-prueba", roles = "ADMINISTRADOR")
 class LoteApiTests {
     @Autowired WebApplicationContext context;
     @Autowired LoteRepository repository;

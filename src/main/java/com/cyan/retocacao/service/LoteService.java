@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Service
+@org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('OPERADOR', 'ADMINISTRADOR')")
 public class LoteService {
 
     private final LoteRepository loteRepository;

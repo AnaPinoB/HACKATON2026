@@ -14,6 +14,14 @@ import org.springframework.context.ConfigurableApplicationContext;
 import static org.junit.jupiter.api.Assertions.*;
 
 class PersistenciaLoteTests {
+    @org.junit.jupiter.api.BeforeEach void autenticar() {
+        var auth = new org.springframework.security.authentication.UsernamePasswordAuthenticationToken(
+            "admin-prueba", "", java.util.List.of(new org.springframework.security.core.authority.SimpleGrantedAuthority("ROLE_ADMINISTRADOR")));
+        org.springframework.security.core.context.SecurityContextHolder.getContext().setAuthentication(auth);
+    }
+    @org.junit.jupiter.api.AfterEach void cerrarSesion() {
+        org.springframework.security.core.context.SecurityContextHolder.clearContext();
+    }
     private ConfigurableApplicationContext iniciar() {
         return new SpringApplicationBuilder(RetoCacaoApplication.class)
             .run("--server.port=0", "--logging.level.root=WARN", "--spring.jpa.show-sql=false");

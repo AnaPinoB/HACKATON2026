@@ -17,6 +17,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @Validated
+@org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMINISTRADOR')")
 public class RegistroOperacionService {
     private final LoteRepository lotes;
     private final RegistroOperacionRepository operaciones;
@@ -34,6 +35,7 @@ public class RegistroOperacionService {
 
     // READ_COMMITTED permite ver lo confirmado por la solicitud que tenia el bloqueo.
     @Transactional(isolation = Isolation.READ_COMMITTED)
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('OPERADOR', 'ADMINISTRADOR')")
     public ResultadoRegistro registrar(@NotNull @Valid OperacionSolicitud solicitud) {
         var s = normalizar(solicitud);
         var lote = lotes.bloquearPorCodigo(s.loteCodigo()).orElseThrow(() ->

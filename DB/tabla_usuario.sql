@@ -1,3 +1,5 @@
+USE retocacao_db;
+
 CREATE TABLE IF NOT EXISTS usuario (
     id_usuario BIGINT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(120) NOT NULL,
