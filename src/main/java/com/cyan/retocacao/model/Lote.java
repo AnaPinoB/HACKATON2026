@@ -1,5 +1,5 @@
 
-package com.Cyan.retoCacao.model;
+package com.cyan.retocacao.model;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;

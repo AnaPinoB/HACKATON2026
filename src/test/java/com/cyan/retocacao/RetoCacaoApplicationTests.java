@@ -1,4 +1,4 @@
-package com.Cyan.retoCacao;
+package com.cyan.retocacao;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

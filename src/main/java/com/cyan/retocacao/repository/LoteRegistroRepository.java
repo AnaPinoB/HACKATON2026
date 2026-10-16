@@ -1,6 +1,6 @@
-package com.Cyan.retoCacao.repository;
+package com.cyan.retocacao.repository;
 
-import com.Cyan.retoCacao.model.Lote;
+import com.cyan.retocacao.model.Lote;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;

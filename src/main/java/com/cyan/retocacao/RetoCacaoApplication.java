@@ -1,4 +1,4 @@
-package com.Cyan.retoCacao;
+package com.cyan.retocacao;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
