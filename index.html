@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f1e8">
+  <title>THEOBRA | El origen importa</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <!-- PANTALLA 1: landing pública -->
+  <div id="landingScreen" class="screen active">
+    <header class="public-nav">
+      <a class="brand" href="#inicio"><span class="brand-symbol"><img src="assets/theobra-logo.png" alt="" style="width:42px;height:42px;object-fit:cover;border-radius:50%"></span><span><b>THEOBRA</b><small>TRAZABILIDAD CON ORIGEN</small></span></a>
+      <nav><a href="#historia">Nuestra esencia</a><a href="#recorrido">El recorrido</a><a href="#consulta">Consultar lote</a></nav>
+      <button class="btn btn-outline" data-enter>Entrar a plataforma <span>↗</span></button>
+    </header>
+    <main>
+      <section class="landing-hero" id="inicio">
+        <video class="landing-video" autoplay muted loop playsinline preload="metadata"><source src="assets/portada-cacao-vivo.mp4" type="video/mp4"></video>
+        <div class="video-overlay"></div>
+        <div class="watermark-zone" aria-hidden="true"></div>
+        <button class="video-register" id="registerTop">Registrarse <span>↗</span></button>
+        <div class="landing-hero-content">
+          <p class="eyebrow light"><span></span> CACAO DEL HUILA · COLOMBIA</p>
+          <h1>El origen tiene<br><em>mucho que contar.</em></h1>
+          <p>Una nueva forma de seguir la historia del cacao: desde la finca y la recepción del lote hasta su transformación y llegada al comprador.</p>
+          <div class="hero-buttons"><button class="btn btn-cream" data-enter>Entrar a plataforma <span>↗</span></button><a class="btn btn-glass" href="#recorrido">Conocer el recorrido <span>↓</span></a></div>
+          <div class="hero-caption"><span class="live-dot"></span> Origen transparente. Decisiones con sentido.</div>
+        </div>
+        <div class="hero-vertical">CACAO · TERRITORIO · CONFIANZA</div>
+        <a href="#historia" class="scroll-cue">DESCUBRE THEOBRA <span>↓</span></a>
+      </section>
+
+      <section class="story-section content-width" id="historia">
+        <div class="story-copy"><p class="eyebrow"><span></span> UNA HISTORIA QUE MERECE SER CONTADA</p><h2>Del árbol al lote.<br><em>Del lote a la confianza.</em></h2><p class="lead">El cacao no empieza en una barra de chocolate. Empieza en la tierra, en el cuidado del cultivo y en las manos que lo hacen posible.</p><p class="muted">THEOBRA organiza la información de recepción, transformación, inventario y origen para que una asociación pueda tomar decisiones informadas y compartir con compradores una historia verificable.</p><button class="text-button" data-enter>Explorar la plataforma <span>→</span></button></div>
+        <div class="story-photos"><img class="story-photo-main" src="assets/hero-cacao.png" alt="Mazorca de cacao madura creciendo en el árbol, rodeada de hojas verdes" loading="lazy"><div class="origin-badge"><small>ORIGEN</small><b>HUILA</b><small>COLOMBIA</small></div></div>
+      </section>
+
+      <section class="journey-section" id="recorrido">
+        <div class="content-width"><div class="section-head"><div><p class="eyebrow"><span></span> TRAZABILIDAD CON SENTIDO</p><h2>Cada etapa deja<br><em>su huella.</em></h2></div><p class="muted">La información del proceso conectada en un recorrido claro, desde la recepción hasta la consulta pública.</p></div>
+          <div class="journey-grid">
+            <article><span class="journey-num">01</span><img class="journey-photo" src="assets/paso-origen.png" alt="Mazorca de cacao en el árbol" loading="lazy"><div class="journey-icon">⌂</div><h3>Origen</h3><p>Productor, finca o municipio, fecha y cantidad recibida.</p></article>
+            <article><span class="journey-num">02</span><img class="journey-photo" src="assets/paso-transformacion.png" alt="Trabajo de selección y procesamiento de granos de cacao" loading="lazy"><div class="journey-icon">↻</div><h3>Transformación</h3><p>Entradas, salidas, responsables e incidencias registradas.</p></article>
+            <article><span class="journey-num">03</span><img class="journey-photo" src="assets/paso-control.png" alt="Granos de cacao revisados y almacenados" loading="lazy"><div class="journey-icon">⌁</div><h3>Control</h3><p>Existencias, merma, costos y alertas con su causa.</p></article>
+            <article><span class="journey-num">04</span><img class="journey-photo" src="assets/paso-confianza.png" alt="Consulta digital de la trazabilidad de un lote de cacao" loading="lazy"><div class="journey-icon">↗</div><h3>Confianza</h3><p>Una ficha comercial pública con datos autorizados.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section class="public-query content-width" id="consulta"><div><p class="eyebrow"><span></span> CONSULTA PÚBLICA</p><h2>¿Conoces el código<br>de tu <em>lote?</em></h2><p class="muted">Consulta su origen y estado. Los costos internos y datos privados no se muestran en esta vista.</p></div><form id="landingLookup" class="lookup-box"><label for="landingCode">Código del lote</label><div class="input-row"><input id="landingCode" value="CAC001" required placeholder="Ej. CAC001"><button class="btn btn-green" type="submit">Consultar <span>→</span></button></div><div id="landingResult" class="lookup-result" hidden></div></form></section>
+    </main>
+    <footer class="public-footer"><a class="brand" href="#inicio"><span class="brand-symbol"><img src="assets/theobra-logo.png" alt="" style="width:42px;height:42px;object-fit:cover;border-radius:50%"></span><span><b>THEOBRA</b><small>TRAZABILIDAD CON ORIGEN</small></span></a><p>Una historia transparente desde el Huila, Colombia.</p><span>PROTOTIPO · DATOS SINTÉTICOS</span></footer>
+  </div>
+
+  <!-- PANTALLA 2+ : aplicación de gestión, con navegación entre pantallas -->
+  <div id="appScreen" class="screen app-screen">
+    <aside class="sidebar">
+      <a class="brand side-brand" href="#" id="backHome"><span class="brand-symbol"><img src="assets/theobra-logo.png" alt="" style="width:42px;height:42px;object-fit:cover;border-radius:50%"></span><span><b>THEOBRA</b><small>ESPACIO DE GESTIÓN</small></span></a>
+      <div class="workspace-label">ASOCIACIÓN DEMO</div>
+      <nav class="side-nav" aria-label="Menú de plataforma">
+        <button class="side-link active" data-page="dashboard"><span>◫</span> Resumen</button>
+        <button class="side-link" data-page="lots"><span>▤</span> Lotes e inventario</button>
+        <button class="side-link" data-page="transform"><span>↻</span> Transformaciones</button>
+        <button class="side-link" data-page="trace"><span>⌁</span> Trazabilidad</button>
+        <button class="side-link" data-page="public"><span>⌗</span> Ficha pública / QR</button>
+        <button class="side-link" data-page="alerts"><span>!</span> Alertas</button>
+        <button class="side-link" data-page="audit"><span>◷</span> Historial de auditoría</button>
+      </nav>
+      <div class="sidebar-bottom"><div class="user-avatar">AD</div><div><b id="sidebarUser">Administrador demo</b><small>Modo demostración</small></div><button id="switchRole" title="Cambiar rol demo">⌄</button></div>
+    </aside>
+    <div class="app-main">
+      <header class="app-topbar"><div><button class="mobile-menu" id="mobileMenu">☰</button><span class="crumb">THEOBRA<span>/</span> <b id="pageCrumb">Resumen</b></span></div><div class="topbar-right"><span class="demo-tag"><i></i> DATOS DE DEMOSTRACIÓN</span><button class="avatar-btn" id="userMenu">AD</button></div></header>
+      <main class="app-content">
+        <section class="app-page active" id="page-dashboard">
+          <div class="page-title-row"><div><p class="eyebrow"><span></span> VISTA GENERAL</p><h1>Buenos días, <em id="welcomeRole">administrador.</em></h1><p class="muted">Aquí tienes el estado actual de los lotes y sus procesos.</p></div><button class="btn btn-green" data-page-go="lots">+ Registrar lote</button></div>
+          <div class="stat-grid"><article><span>Lotes registrados</span><strong id="statLots">03</strong><small>Identificadores únicos</small></article><article><span>Existencia disponible</span><strong id="statAvailable">330 <i>kg</i></strong><small>Según operaciones registradas</small></article><article><span>Alertas activas</span><strong id="statAlerts">01</strong><small>Reglas de demostración</small></article><article><span>Margen del ejemplo</span><strong>20<i>%</i></strong><small>Supuesto oficial del reto</small></article></div>
+          <div class="dashboard-grid"><section class="surface"><div class="surface-head"><div><span class="overline">INVENTARIO</span><h2>Existencias por lote</h2></div><button class="text-button" data-page-go="lots">Ver todos →</button></div><div id="dashboardInventory" class="inventory-list"></div></section><section class="surface"><div class="surface-head"><div><span class="overline">REQUIEREN ATENCIÓN</span><h2>Alertas recientes</h2></div><span class="alert-number" id="alertNumber">01</span></div><div id="dashboardAlerts" class="alert-list"></div><button class="text-button" data-page-go="alerts">Revisar alertas →</button></section></div>
+          <section class="surface recent-surface"><div class="surface-head"><div><span class="overline">ACCESO RÁPIDO</span><h2>Continúa tu trabajo</h2></div></div><div class="quick-actions"><button data-page-go="lots"><span>▤</span><b>Registrar recepción</b><small>Crear un lote de cacao</small></button><button data-page-go="transform"><span>↻</span><b>Transformar lote</b><small>Registrar entradas y salidas</small></button><button data-page-go="trace"><span>⌁</span><b>Consultar trazabilidad</b><small>Ver el recorrido del lote</small></button><button data-page-go="public"><span>⌗</span><b>Ficha comercial</b><small>Preparar consulta pública</small></button></div></section>
+        </section>
+        <section class="app-page" id="page-lots">
+          <div class="page-title-row"><div><p class="eyebrow"><span></span> RECEPCIÓN E INVENTARIO</p><h1>Lotes de <em>cacao.</em></h1><p class="muted">Registra la recepción y controla las cantidades disponibles.</p></div><button class="btn btn-green" id="openLotForm">+ Registrar lote</button></div>
+          <section class="surface"><div class="toolbar"><input id="lotSearch" placeholder="Buscar por código, productor u origen..." aria-label="Buscar lote"><select id="lotStatus"><option value="">Todos los estados</option><option>Pendiente</option><option>Liberado</option><option>Bloqueado</option></select><button class="btn btn-outline" id="exportCsv">Exportar CSV ↓</button></div><div class="table-scroll"><table><thead><tr><th>CÓDIGO</th><th>PRODUCTOR</th><th>ORIGEN</th><th>RECIBIDO</th><th>DISPONIBLE</th><th>ESTADO</th><th>DETALLE</th></tr></thead><tbody id="lotsTable"></tbody></table></div></section>
+          <section class="surface register-surface"><div><span class="overline">REGISTRO NUEVO</span><h2>¿Llegó un nuevo lote?</h2><p class="muted">Completa la información de recepción. Los campos obligatorios deben estar validados antes de guardar.</p></div><button class="btn btn-green" id="openLotForm2">Registrar recepción <span>→</span></button></section>
+        </section>
+        <section class="app-page" id="page-transform">
+          <div class="page-title-row"><div><p class="eyebrow"><span></span> PROCESO AGROINDUSTRIAL</p><h1>Transformación de <em>cacao.</em></h1><p class="muted">Registra una etapa vinculada a su lote de origen y revisa sus indicadores.</p></div></div>
+          <div class="two-col"><section class="surface"><span class="overline">NUEVA OPERACIÓN</span><h2>Datos de transformación</h2><form id="transformForm" class="form-stack"><label>Lote de origen<select id="transformLot" required></select></label><div class="form-pair"><label>Etapa<input id="transformStage" value="Secado y selección" required></label><label>Responsable<input id="transformResponsible" value="Operador demo" required></label></div><div class="form-pair"><label>Entrada (kg)<input id="transformInput" type="number" min=".01" step=".01" value="100" required></label><label>Salida (kg)<input id="transformOutput" type="number" min="0" step=".01" value="80" required></label></div><label>Costo total de etapa (COP)<input id="transformCost" type="number" min="0" value="1600000" required></label><label>Incidencias o justificación<textarea id="transformIncident" rows="3" placeholder="Obligatorio si la salida supera la entrada"></textarea></label><button class="btn btn-green" type="submit">Guardar transformación <span>→</span></button><small class="fine-print">Modo demo local. El control de inventario definitivo debe ejecutarse también en el backend.</small></form></section>
+          <section class="surface calc-surface"><span class="overline">INDICADORES CALCULADOS</span><h2>Balance de la etapa</h2><div class="calc-line"><span>Merma estimada</span><b id="calcMerma">20%</b></div><div class="calc-bar"><span id="calcMermaBar"></span></div><div class="calc-line"><span>Costo unitario</span><b id="calcUnitCost">$20.000/kg</b></div><label class="price-label">Precio hipotético de venta (COP/kg)<input id="salePrice" type="number" value="25000" min="0"></label><div class="calc-line"><span>Margen sobre venta</span><b id="calcMargin">20%</b></div><p class="formula-box">Merma = (entrada − salida) ÷ entrada × 100. Costo unitario = costo ÷ salida vendible. Margen = (precio − costo unitario) ÷ precio × 100. El umbral de 15% es una regla del reto, no un estándar de calidad.</p><div id="calcWarning" class="warning-box" hidden></div></section></div>
+          <section class="surface"><div class="surface-head"><div><span class="overline">OPERACIONES REGISTRADAS</span><h2>Historial de transformación</h2></div></div><div class="table-scroll"><table><thead><tr><th>LOTE</th><th>ETAPA</th><th>ENTRADA</th><th>SALIDA</th><th>MERMA</th><th>COSTO</th></tr></thead><tbody id="transformTable"></tbody></table></div></section>
+        </section>
+        <section class="app-page" id="page-trace">
+          <div class="page-title-row"><div><p class="eyebrow"><span></span> RECORRIDO DEL PRODUCTO</p><h1>Trazabilidad <em>visual.</em></h1><p class="muted">Reconstruye la historia de un lote desde su recepción hasta el estado actual.</p></div></div>
+          <section class="surface trace-search-surface"><form id="traceForm"><label for="traceCode">Código de lote</label><div class="input-action"><input id="traceCode" value="CAC001" required placeholder="Ej. CAC001"><button class="btn btn-green">Consultar recorrido <span>→</span></button></div></form></section><section class="surface trace-output" id="traceOutput"></section>
+        </section>
+        <section class="app-page" id="page-public">
+          <div class="page-title-row"><div><p class="eyebrow"><span></span> INFORMACIÓN PARA COMPRADORES</p><h1>Ficha pública <em>del lote.</em></h1><p class="muted">Vista pública con origen y estado; no incluye costos internos ni datos privados.</p></div></div>
+          <div class="two-col"><section class="surface"><span class="overline">CONSULTA DE PRODUCTO</span><h2>Busca un lote</h2><form id="publicForm" class="form-stack"><label>Código de lote<input id="publicCode" value="CAC001" required></label><button class="btn btn-green">Generar ficha pública <span>→</span></button></form><div id="publicCard" class="public-card" hidden></div></section><section class="surface qr-surface"><span class="overline">ACCESO RÁPIDO</span><h2>Consulta por QR</h2><div id="qrPattern" class="qr-pattern"><span>CV</span></div><p class="muted">La vista QR es ilustrativa. Para que sea escaneable debe generarse con una URL pública desplegada.</p><button id="generateQr" class="btn btn-outline">Preparar vista QR ↗</button><p id="qrMessage" class="fine-print"></p></section></div>
+        </section>
+        <section class="app-page" id="page-alerts">
+          <div class="page-title-row"><div><p class="eyebrow"><span></span> CONTROL Y PREVENCIÓN</p><h1>Alertas para <em>decidir.</em></h1><p class="muted">Cada alerta indica qué regla se activó y por qué requiere atención.</p></div></div><section class="surface"><div class="surface-head"><div><span class="overline">CENTRO DE ALERTAS</span><h2>Estado de los registros</h2></div></div><div id="fullAlerts" class="alert-list"></div></section>
+        </section>
+        <section class="app-page" id="page-audit">
+          <div class="page-title-row"><div><p class="eyebrow"><span></span> REGISTRO DE ACTIVIDAD</p><h1>Historial de <em>auditoría.</em></h1><p class="muted">Consulta quién hizo un cambio, cuándo ocurrió y qué información afectó.</p></div></div><section class="surface"><div class="table-scroll"><table><thead><tr><th>FECHA</th><th>USUARIO</th><th>ACCIÓN</th><th>ELEMENTO</th><th>DETALLE</th></tr></thead><tbody id="auditTable"></tbody></table></div></section></section>
+      </main>
+    </div>
+  </div>
+
+  <div id="loginModal" class="modal" hidden><div class="modal-card auth-card"><button class="modal-close" data-close-modal="loginModal">×</button><p class="eyebrow"><span></span> ACCESO PRIVADO</p><h2>THEOBRA <em>integrado.</em></h2><p class="muted">Esta copia prototipo no autentica usuarios ni acepta credenciales de demostración.</p><p class="fine-print">Abre la aplicación Spring Boot para iniciar sesión con una cuenta autorizada creada desde la terminal.</p><a class="btn btn-green" href="http://localhost:8085/">Abrir aplicación integrada <span>→</span></a></div></div>
+  <div id="registerModal" class="modal" hidden><div class="modal-card"><button class="modal-close" data-close-modal="registerModal">×</button><p class="eyebrow"><span></span> CREA TU CUENTA</p><h2>Conecta con el <em>origen.</em></h2><p class="muted">Registro público para compradores. Las cuentas técnicas son autorizadas por la asociación.</p><form id="registerForm" class="form-stack"><label>Nombre completo<input id="registerName" autocomplete="name" required></label><label>Correo electrónico<input id="registerEmail" type="email" autocomplete="email" required></label><div class="form-pair"><label>Teléfono de contacto<input id="registerPhone" type="tel" autocomplete="tel" placeholder="300 000 0000" required></label><label>Tipo de comprador<select id="registerBuyerType" required><option value="">Selecciona una opción</option><option>Persona natural</option><option>Comercio / tienda</option><option>Empresa</option><option>Distribuidor</option></select></label></div><label>Ciudad o municipio<input id="registerCity" autocomplete="address-level2" required></label><label>Contraseña<input id="registerPassword" type="password" minlength="8" autocomplete="new-password" required></label><label>Confirmar contraseña<input id="registerPasswordConfirm" type="password" minlength="8" autocomplete="new-password" required></label><button class="btn btn-green">Crear cuenta de comprador <span>→</span></button><small class="fine-print">Demo local: la cuenta se guarda en este navegador y no se crea en el backend.</small></form></div></div>
+  <div id="lotModal" class="modal" hidden><div class="modal-card"><button class="modal-close" data-close-modal="lotModal">×</button><p class="eyebrow"><span></span> RECEPCIÓN DE CACAO</p><h2>Registrar <em>lote.</em></h2><form id="lotForm" class="form-stack"><label>Código único<input id="newCode" placeholder="Ej. CAC004" required></label><label>Productor<input id="newProducer" required></label><label>Municipio de origen<input id="newOrigin" required></label><div class="form-pair"><label>Fecha<input id="newDate" type="date" required></label><label>Cantidad recibida (kg)<input id="newQty" type="number" min=".01" step=".01" required></label></div><label>Notas<input id="newNotes"></label><button class="btn btn-green">Guardar lote <span>→</span></button></form></div></div>
+  <div id="detailModal" class="modal" hidden><div class="modal-card"><button class="modal-close" data-close-modal="detailModal">×</button><div id="detailContent"></div></div></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="js/app.js"></script>
+</body></html>

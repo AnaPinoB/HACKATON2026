@@ -1,0 +1,12 @@
+USE retocacao_db;
+
+CREATE TABLE IF NOT EXISTS usuario (
+    id_usuario BIGINT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(120) NOT NULL,
+    correo VARCHAR(150) NOT NULL UNIQUE,
+    contrasena VARCHAR(255) NOT NULL,
+    rol VARCHAR(20) NOT NULL,
+    activo BOOLEAN NOT NULL DEFAULT TRUE,
+    CONSTRAINT chk_usuario_rol
+        CHECK (rol IN ('OPERADOR', 'ADMINISTRADOR'))
+);
