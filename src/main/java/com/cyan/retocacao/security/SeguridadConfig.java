@@ -44,12 +44,26 @@ public class SeguridadConfig {
             .authorizeHttpRequests(auth -> auth
 
                 // Endpoint para obtener el token CSRF
-                .requestMatchers("/api/csrf", "/error").permitAll()
+                .requestMatchers(
+                    "/api/csrf",
+                    "/error"
+                ).permitAll()
 
                 // RF06: Consulta publica de productos
                 .requestMatchers(
                     HttpMethod.GET,
                     "/api/publico/productos/*"
+                ).permitAll()
+
+                // Permitir acceso publico al frontend
+                .requestMatchers(
+                    HttpMethod.GET,
+                    "/",
+                    "/index.html",
+                    "/css/**",
+                    "/js/**",
+                    "/assets/**",
+                    "/favicon.ico"
                 ).permitAll()
 
                 // El resto de la API requiere autenticacion
