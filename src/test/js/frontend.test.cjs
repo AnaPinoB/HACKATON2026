@@ -12,7 +12,7 @@ const prototypeAppSource = fs.readFileSync('js/app.js', 'utf8');
 const settle = async () => { for (let i = 0; i < 12; i++) await new Promise(resolve => setImmediate(resolve)); };
 
 // DOM minimo en memoria: ejecuta los manejadores reales, sin navegador ni MySQL.
-function ui({ authenticated = false, role = 'ADMINISTRADOR' } = {}) {
+function ui({ authenticated = false, role = 'ADMINISTRADOR', publicLinkCode = '' } = {}) {
     const nodes = new Map(), calls = [], listeners = new Map(), storage = [];
     const fixture = { lote: { codigo:'REAL001',productor:'Productor <prueba>',origen:'Rivera',fecha:'2026-10-16',estadoLote:'PENDIENTE',unidad:'kg' },
         recibidoKg:100,consumidoKg:20,disponibleKg:80,salidaProducidaKg:16,operaciones:[] };
@@ -63,7 +63,11 @@ function ui({ authenticated = false, role = 'ADMINISTRADOR' } = {}) {
         if(path.endsWith('/estado'))return fixture.lote;
         if(path.endsWith('/auditoria'))return [];
         if(path==='/api/operaciones')return {mermaPorcentaje:20,alertaMerma:true,causaAlerta:'Supera 15%',costoUnitarioCopKg:20000,margenSobreVentaPorcentaje:20};
-        if(path.startsWith('/api/publico/productos/'))return {codigo:'REAL001',origen:'Rivera',fechaRecepcion:'2026-10-16',cantidadRecibida:100,unidad:'kg',estado:'BLOQUEADO',disponibleParaVenta:false,trazabilidad:[]};
+        if(path.startsWith('/api/publico/productos/')) {
+            const code=decodeURIComponent(path.slice('/api/publico/productos/'.length));
+            if(code!=='REAL001')throw Object.assign(new Error('El producto no existe'),{status:404});
+            return {codigo:'REAL001',productor:'Productor de prueba',origen:'Rivera',fechaRecepcion:'2026-10-16',cantidadRecibida:100,unidad:'kg',estado:'BLOQUEADO',disponibleParaVenta:false,trazabilidad:[{etapa:'Secado',fecha:'2026-10-17',cantidadEntradaKg:100,cantidadSalidaKg:80}]};
+        }
         throw new Error('Peticion inesperada: '+path);
     };
     const window={CacaoApi:{request,login:async(correo,password)=>{calls.push({login:{correo,password}});authenticated=true;return account;},logout:async()=>{calls.push({path:'/api/logout'});authenticated=false;}},
@@ -71,7 +75,7 @@ function ui({ authenticated = false, role = 'ADMINISTRADOR' } = {}) {
     let promptCount=0;
     vm.runInNewContext(appSource,{window,document:{querySelector:get,querySelectorAll:all,createElement:()=>new Element('created')},
         localStorage:{removeItem:k=>storage.push(['remove',k]),setItem:()=>{throw new Error('No guardar credenciales');}},
-        location:{origin:'http://localhost',search:''}, URL, URLSearchParams,Intl,Date,Math,JSON,Number,String,Promise,crypto,
+        location:{origin:'http://localhost',search:publicLinkCode ? '?lote='+encodeURIComponent(publicLinkCode) : ''}, URL, URLSearchParams,Intl,Date,Math,JSON,Number,String,Promise,crypto,
         setTimeout:()=>0,clearTimeout(){},prompt:()=> (++promptCount % 2 ? 'Materia prima y trabajo':'2026-10-16'),confirm:()=>false,console});
     return {nodes,calls,storage,listeners,nav,fixture,articles,roleChoices};
 }
@@ -171,10 +175,25 @@ test('formularios no usan dialogos nativos ni cantidades precargadas',()=>{
     assert.doesNotMatch(appSource,/\b(prompt|confirm|alert)\s*\(/);
     assert.doesNotMatch(html,/id="transform(Input|Output|Cost)"[^>]*\bvalue=/);
 });
-test('RF06 consulta exclusivamente endpoint publico y no muestra productor',async()=>{
+test('RF06 muestra datos comerciales públicos, trazabilidad y bloquea la disponibilidad',async()=>{
     const x=ui();await settle();x.nodes.get('landingCode').value='REAL001';x.nodes.get('landingLookup').fire('submit');await settle();
-    assert.match(x.nodes.get('landingResult').innerHTML,/Disponible para venta: No/);
-    assert.doesNotMatch(x.nodes.get('landingResult').innerHTML,/Productor/);
+    assert.match(x.nodes.get('landingResult').innerHTML,/Productor de prueba/);
+    assert.match(x.nodes.get('landingResult').innerHTML,/Rivera/);
+    assert.match(x.nodes.get('landingResult').innerHTML,/Bloqueado/);
+    assert.match(x.nodes.get('landingResult').innerHTML,/No disponible para comercialización: lote bloqueado/);
+    assert.match(x.nodes.get('landingResult').innerHTML,/Secado/);
+    assert.match(x.nodes.get('landingResult').innerHTML,/100 kg → salida 80 kg/);
+    assert.doesNotMatch(x.nodes.get('landingResult').innerHTML,/responsable|costoTotal|precioVenta|margen|1600000/i);
+});
+test('el enlace público con parámetro lote abre la ficha sin sesión',async()=>{
+    const x=ui({publicLinkCode:'REAL001'});await settle();
+    assert.equal(x.nodes.get('landingCode').value,'REAL001');
+    assert.match(x.nodes.get('landingResult').innerHTML,/Productor de prueba/);
+    assert.equal(x.calls.some(c=>c.path==='/api/publico/productos/REAL001'),true);
+});
+test('la consulta pública informa cuando el código del lote no existe',async()=>{
+    const x=ui();await settle();x.nodes.get('landingCode').value='NO-EXISTE';x.nodes.get('landingLookup').fire('submit');await settle();
+    assert.match(x.nodes.get('landingResult').textContent,/No se encontró un lote con ese código/);
 });
 test('expiracion limpia datos de la cuenta previa',async()=>{
     const x=ui({authenticated:true});await settle();x.listeners.get('cacao:session-expired')();

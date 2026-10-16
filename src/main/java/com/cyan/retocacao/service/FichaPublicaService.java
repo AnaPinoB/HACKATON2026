@@ -59,6 +59,7 @@ public class FichaPublicaService {
         // Construir una respuesta exclusivamente publica
         return new FichaPublicaDTO(
             lote.getCodigo(),
+            lote.getProductor(),
             lote.getOrigen(),
             lote.getFecha(),
             lote.getCantidad(),
