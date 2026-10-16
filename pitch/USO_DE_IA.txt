@@ -1,0 +1,8 @@
+﻿DECLARACION DE USO DE INTELIGENCIA ARTIFICIAL
+
+Proyecto: THEOBRA
+Presentacion: THEOBRA (1).pdf
+
+La creacion de las diapositivas de esta presentacion se realizo con ayuda de Claude, herramienta de inteligencia artificial de Anthropic.
+
+Esta declaracion registra la asistencia indicada por el equipo del proyecto.
