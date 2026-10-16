@@ -1,6 +1,6 @@
 # Avance: operaciones, inventario y trazabilidad
 
-Fecha: 15 de octubre de 2026, America/Bogota.
+Fecha: 15 de octubre de 2026.
 
 ## Alcance implementado
 
