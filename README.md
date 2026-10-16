@@ -1,5 +1,11 @@
 # Aplicativo web "Cacao con historia, calidad y valor"
 
+## Avance verificado: recepción y consulta de lotes
+
+Ya están implementados `POST /api/lotes` y `GET /api/lotes` con persistencia en MySQL. Se corrigió el wrapper de Maven en Windows y se verificaron 7 pruebas sin fallos.
+
+Consulta [la documentación del avance RF01/RF07](documentos/AVANCE_RF01_RF07.md) para ver los archivos cambiados, configuración, comandos, ejemplos de la API, datos de prueba y limitaciones. Las secciones con marcadores pendientes más abajo siguen siendo el borrador de la entrega completa.
+
 Para cumplir con los parámetros y requisitos del reto se desarrola un MVP de software para apoyar la trazabilidad de lotes de cacao de una asociación ficticia del Huila. El proyecto se desarrolla dentro del tiempo acordado para el desarrollo del reto, como parte de la II Hackathon de Programación de la Universidad Surcolombiana.
 
 ## Descripción general del aplicativo

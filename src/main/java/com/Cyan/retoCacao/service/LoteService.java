@@ -3,6 +3,7 @@ package com.Cyan.retoCacao.service;
 
 import com.Cyan.retoCacao.model.Lote;
 import com.Cyan.retoCacao.repository.LoteRepository;
+import com.Cyan.retoCacao.repository.LoteRegistroRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,13 +16,19 @@ import java.util.List;
 public class LoteService {
 
     private final LoteRepository loteRepository;
+    private final LoteRegistroRepository registroRepository;
 
-    public LoteService(LoteRepository loteRepository) {
+    public LoteService(LoteRepository loteRepository, LoteRegistroRepository registroRepository) {
         this.loteRepository = loteRepository;
+        this.registroRepository = registroRepository;
     }
 
     // RF01: Registrar un lote de cacao
     public Lote registrarLote(Lote lote) {
+
+        if (lote == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El lote es obligatorio");
+        }
 
         // Validar identificador
         if (lote.getCodigo() == null ||
@@ -69,6 +76,13 @@ public class LoteService {
         }
 
         // Validar unidad
+        if (lote.getCantidad().compareTo(new BigDecimal("99999999.99")) > 0 ||
+            lote.getCantidad().stripTrailingZeros().scale() > 2) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                "La cantidad admite hasta 99999999.99 y un maximo de dos decimales");
+        }
+
+        // Validar unidad
         if (lote.getUnidad() == null ||
             lote.getUnidad().isBlank()) {
             throw new ResponseStatusException(
@@ -92,7 +106,7 @@ public class LoteService {
         lote.setEstadoLote("PENDIENTE");
 
         // Guardar en MySQL
-        return loteRepository.save(lote);
+        return registroRepository.insertar(lote);
     }
 
     // Consultar todos los lotes
