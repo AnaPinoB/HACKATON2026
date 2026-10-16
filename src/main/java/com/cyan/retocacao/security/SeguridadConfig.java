@@ -40,6 +40,11 @@ public class SeguridadConfig {
 
     @Bean
     SecurityFilterChain api(HttpSecurity http) throws Exception {
+        org.springframework.security.web.AuthenticationEntryPoint sinSesion = (request, response, exception) -> {
+            response.setStatus(401);
+            response.setContentType("application/problem+json");
+            response.getWriter().write("{\"status\":401,\"detail\":\"Autenticacion requerida\"}");
+        };
         return http
             .authorizeHttpRequests(auth -> auth
 
@@ -48,6 +53,8 @@ public class SeguridadConfig {
                     "/api/csrf",
                     "/error"
                 ).permitAll()
+
+                .requestMatchers(HttpMethod.POST, "/api/publico/compradores").permitAll()
 
                 // RF06: Consulta publica de productos
                 .requestMatchers(
@@ -75,7 +82,22 @@ public class SeguridadConfig {
             )
 
             // Autenticacion HTTP Basic
-            .httpBasic(Customizer.withDefaults())
+            .httpBasic(basic -> basic.authenticationEntryPoint(sinSesion))
+
+            // El navegador usa una sesion HttpOnly; nunca necesita conservar la clave.
+            .formLogin(login -> login.loginProcessingUrl("/api/login")
+                .usernameParameter("correo").passwordParameter("password")
+                .successHandler((request, response, authentication) -> {
+                    response.setStatus(204);
+                })
+                .failureHandler((request, response, exception) -> {
+                    response.setStatus(401);
+                    response.setContentType("application/problem+json");
+                    response.getWriter().write("{\"status\":401,\"detail\":\"Correo o contrasena incorrectos, o cuenta inactiva\"}");
+                }).permitAll())
+            .logout(logout -> logout.logoutUrl("/api/logout")
+                .invalidateHttpSession(true).clearAuthentication(true).deleteCookies("JSESSIONID")
+                .logoutSuccessHandler((request, response, authentication) -> response.setStatus(204)))
 
             // Mantener proteccion CSRF
             .csrf(Customizer.withDefaults())
@@ -84,17 +106,7 @@ public class SeguridadConfig {
             .exceptionHandling(errors -> errors
 
                 // Error 401: Usuario no autenticado
-                .authenticationEntryPoint((request, response, exception) -> {
-                    response.setStatus(401);
-                    response.setHeader(
-                        "WWW-Authenticate",
-                        "Basic realm=\"RetoCacao\""
-                    );
-                    response.setContentType("application/problem+json");
-                    response.getWriter().write(
-                        "{\"status\":401,\"detail\":\"Autenticacion requerida\"}"
-                    );
-                })
+                .authenticationEntryPoint(sinSesion)
 
                 // Error 403: Acceso denegado
                 .accessDeniedHandler((request, response, exception) -> {

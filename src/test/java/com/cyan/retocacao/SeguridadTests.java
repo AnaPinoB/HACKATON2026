@@ -33,7 +33,10 @@ class SeguridadTests {
     @AfterEach void limpiar() { jdbc.update("DELETE FROM usuario WHERE correo=?", correo); }
 
     @Test void anonimoNoConsultaDatosInternos() throws Exception {
-        mvc.perform(get("/api/lotes")).andExpect(status().isUnauthorized());
+        mvc.perform(get("/api/lotes")).andExpect(status().isUnauthorized())
+            .andExpect(header().doesNotExist("WWW-Authenticate"));
+        mvc.perform(get("/")).andExpect(status().isOk())
+            .andExpect(header().doesNotExist("WWW-Authenticate"));
         mvc.perform(get("/api/operaciones")).andExpect(status().isUnauthorized());
     }
     @Test void usuarioRealSeAutenticaConBcrypt() throws Exception {
@@ -41,14 +44,16 @@ class SeguridadTests {
             .andExpect(status().isOk()).andExpect(jsonPath("$.correo").value(correo))
             .andExpect(jsonPath("$.permisos[0]").value("ROLE_OPERADOR"));
         mvc.perform(get("/api/cuenta").with(httpBasic(correo, "incorrecta")))
-            .andExpect(status().isUnauthorized());
+            .andExpect(status().isUnauthorized())
+            .andExpect(header().doesNotExist("WWW-Authenticate"));
     }
     @Test void usuarioInactivoNoIngresa() throws Exception {
         jdbc.update("UPDATE usuario SET activo=FALSE WHERE correo=?", correo);
         mvc.perform(get("/api/cuenta").with(httpBasic(correo, clave))).andExpect(status().isUnauthorized());
     }
     @Test void operadorNoConsultaCostosAdministrativos() throws Exception {
-        mvc.perform(get("/api/operaciones").with(httpBasic(correo, clave))).andExpect(status().isForbidden());
+        mvc.perform(get("/api/operaciones").with(httpBasic(correo, clave))).andExpect(status().isOk());
+        mvc.perform(get("/api/lotes/TEST/auditoria").with(httpBasic(correo, clave))).andExpect(status().isForbidden());
         mvc.perform(get("/api/operaciones").with(user("admin").roles("ADMINISTRADOR"))).andExpect(status().isOk());
     }
     @Test void escrituraSinCsrfEsDenegada() throws Exception {

@@ -35,6 +35,12 @@ public class Lote {
     @Column(name = "motivo_estado", length = 255)
     private String motivoEstado;
 
+    @Column(name = "observacion", length = 2000)
+    private String observacion;
+
+    public String getObservacion() { return observacion; }
+    public void setObservacion(String observacion) { this.observacion = observacion; }
+
     public String getMotivoEstado() { return motivoEstado; }
     public void setMotivoEstado(String motivoEstado) { this.motivoEstado = motivoEstado; }
 

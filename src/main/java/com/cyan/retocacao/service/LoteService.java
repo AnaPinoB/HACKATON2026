@@ -106,6 +106,9 @@ public class LoteService {
         }
 
         // Evitar que el cliente establezca el estado inicial
+        if (lote.getObservacion() != null && lote.getObservacion().length() > 2000) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Las notas admiten hasta 2000 caracteres");
+        }
         lote.setEstadoLote("PENDIENTE");
         lote.setMotivoEstado(null);
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#f5f1e8">
-  <title>CACAO VIVO | El origen importa</title>
+  <title>THEOBRA | El origen importa</title>
   <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
@@ -12,7 +12,7 @@
   <!-- PANTALLA 1: landing pública -->
   <div id="landingScreen" class="screen active">
     <header class="public-nav">
-      <a class="brand" href="#inicio"><span class="brand-symbol">cv<span>✳</span></span><span><b>CACAO VIVO</b><small>TRAZABILIDAD CON ORIGEN</small></span></a>
+      <a class="brand" href="#inicio"><span class="brand-symbol">cv<span>✳</span></span><span><b>THEOBRA</b><small>TRAZABILIDAD CON ORIGEN</small></span></a>
       <nav><a href="#historia">Nuestra esencia</a><a href="#recorrido">El recorrido</a><a href="#consulta">Consultar lote</a></nav>
       <button class="btn btn-outline" data-enter>Entrar a plataforma <span>↗</span></button>
     </header>
@@ -30,7 +30,7 @@
           <div class="hero-caption"><span class="live-dot"></span> Origen transparente. Decisiones con sentido.</div>
         </div>
         <div class="hero-vertical">CACAO · TERRITORIO · CONFIANZA</div>
-        <a href="#historia" class="scroll-cue">DESCUBRE CACAO VIVO <span>↓</span></a>
+        <a href="#historia" class="scroll-cue">DESCUBRE THEOBRA <span>↓</span></a>
       </section>
 
       <section class="story-section content-width" id="historia">
@@ -57,7 +57,7 @@
   <!-- PANTALLA 2+ : aplicación de gestión, con navegación entre pantallas -->
   <div id="appScreen" class="screen app-screen">
     <aside class="sidebar">
-      <a class="brand side-brand" href="#" id="backHome"><span class="brand-symbol">cv<span>✳</span></span><span><b>CACAO VIVO</b><small>ESPACIO DE GESTIÓN</small></span></a>
+      <a class="brand side-brand" href="#" id="backHome"><span class="brand-symbol">cv<span>✳</span></span><span><b>THEOBRA</b><small>ESPACIO DE GESTIÓN</small></span></a>
       <div class="workspace-label">ASOCIACIÓN DEMO</div>
       <nav class="side-nav" aria-label="Menú de plataforma">
         <button class="side-link active" data-page="dashboard"><span>◫</span> Resumen</button>
@@ -71,7 +71,7 @@
       <div class="sidebar-bottom"><div class="user-avatar">AD</div><div><b id="sidebarUser">Administrador demo</b><small>Modo demostración</small></div><button id="switchRole" title="Cambiar rol demo">⌄</button></div>
     </aside>
     <div class="app-main">
-      <header class="app-topbar"><div><button class="mobile-menu" id="mobileMenu">☰</button><span class="crumb">CACAO VIVO <span>/</span> <b id="pageCrumb">Resumen</b></span></div><div class="topbar-right"><span class="demo-tag"><i></i> DATOS DE DEMOSTRACIÓN</span><button class="avatar-btn" id="userMenu">AD</button></div></header>
+      <header class="app-topbar"><div><button class="mobile-menu" id="mobileMenu">☰</button><span class="crumb">THEOBRA<span>/</span> <b id="pageCrumb">Resumen</b></span></div><div class="topbar-right"><span class="demo-tag"><i></i> DATOS DE DEMOSTRACIÓN</span><button class="avatar-btn" id="userMenu">AD</button></div></header>
       <main class="app-content">
         <section class="app-page active" id="page-dashboard">
           <div class="page-title-row"><div><p class="eyebrow"><span></span> VISTA GENERAL</p><h1>Buenos días, <em id="welcomeRole">administrador.</em></h1><p class="muted">Aquí tienes el estado actual de los lotes y sus procesos.</p></div><button class="btn btn-green" data-page-go="lots">+ Registrar lote</button></div>
@@ -107,7 +107,7 @@
     </div>
   </div>
 
-  <div id="loginModal" class="modal" hidden><div class="modal-card auth-card"><button class="modal-close" data-close-modal="loginModal">×</button><p class="eyebrow"><span></span> ACCESO PRIVADO</p><h2>Entrar a <em>plataforma.</em></h2><p class="muted">Selecciona el perfil técnico autorizado para continuar.</p><div class="role-picker"><button type="button" class="role-choice selected" data-login-role="Administrador"><span>♙</span><b>Administrador</b><small>Gestión completa</small></button><button type="button" class="role-choice" data-login-role="Operador"><span>▤</span><b>Operador</b><small>Gestión operativa</small></button></div><form id="loginForm" class="form-stack"><label>Correo electrónico<input id="loginEmail" type="email" autocomplete="username" placeholder="demo@cacaovivo.co" required></label><label>Contraseña<input id="loginPassword" type="password" autocomplete="current-password" placeholder="Contraseña de demostración" required></label><button class="btn btn-green">Iniciar sesión <span>→</span></button></form><details class="demo-credentials"><summary>Acceso para demostración</summary><p><b>Administrador:</b> admin@cacaovivo.co / CacaoDemo2026</p><p><b>Operador:</b> operador@cacaovivo.co / OperadorDemo2026</p><small>Credenciales ficticias para la presentación. No usar en producción.</small></details><p class="fine-print">Los compradores no necesitan iniciar sesión. Pueden consultar la trazabilidad desde la página pública.</p></div></div>
+  <div id="loginModal" class="modal" hidden><div class="modal-card auth-card"><button class="modal-close" data-close-modal="loginModal">×</button><p class="eyebrow"><span></span> ACCESO PRIVADO</p><h2>THEOBRA <em>integrado.</em></h2><p class="muted">Esta copia prototipo no autentica usuarios ni acepta credenciales de demostración.</p><p class="fine-print">Abre la aplicación Spring Boot para iniciar sesión con una cuenta autorizada creada desde la terminal.</p><a class="btn btn-green" href="http://localhost:8085/">Abrir aplicación integrada <span>→</span></a></div></div>
   <div id="registerModal" class="modal" hidden><div class="modal-card"><button class="modal-close" data-close-modal="registerModal">×</button><p class="eyebrow"><span></span> CREA TU CUENTA</p><h2>Conecta con el <em>origen.</em></h2><p class="muted">Registro público para compradores. Las cuentas técnicas son autorizadas por la asociación.</p><form id="registerForm" class="form-stack"><label>Nombre completo<input id="registerName" autocomplete="name" required></label><label>Correo electrónico<input id="registerEmail" type="email" autocomplete="email" required></label><div class="form-pair"><label>Teléfono de contacto<input id="registerPhone" type="tel" autocomplete="tel" placeholder="300 000 0000" required></label><label>Tipo de comprador<select id="registerBuyerType" required><option value="">Selecciona una opción</option><option>Persona natural</option><option>Comercio / tienda</option><option>Empresa</option><option>Distribuidor</option></select></label></div><label>Ciudad o municipio<input id="registerCity" autocomplete="address-level2" required></label><label>Contraseña<input id="registerPassword" type="password" minlength="8" autocomplete="new-password" required></label><label>Confirmar contraseña<input id="registerPasswordConfirm" type="password" minlength="8" autocomplete="new-password" required></label><button class="btn btn-green">Crear cuenta de comprador <span>→</span></button><small class="fine-print">Demo local: la cuenta se guarda en este navegador y no se crea en el backend.</small></form></div></div>
   <div id="lotModal" class="modal" hidden><div class="modal-card"><button class="modal-close" data-close-modal="lotModal">×</button><p class="eyebrow"><span></span> RECEPCIÓN DE CACAO</p><h2>Registrar <em>lote.</em></h2><form id="lotForm" class="form-stack"><label>Código único<input id="newCode" placeholder="Ej. CAC004" required></label><label>Productor<input id="newProducer" required></label><label>Municipio de origen<input id="newOrigin" required></label><div class="form-pair"><label>Fecha<input id="newDate" type="date" required></label><label>Cantidad recibida (kg)<input id="newQty" type="number" min=".01" step=".01" required></label></div><label>Notas<input id="newNotes"></label><button class="btn btn-green">Guardar lote <span>→</span></button></form></div></div>
   <div id="detailModal" class="modal" hidden><div class="modal-card"><button class="modal-close" data-close-modal="detailModal">×</button><div id="detailContent"></div></div></div>

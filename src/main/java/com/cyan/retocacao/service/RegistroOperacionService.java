@@ -48,7 +48,7 @@ public class RegistroOperacionService {
                 throw new ResponseStatusException(HttpStatus.CONFLICT,
                     "El codigo de operacion ya existe con datos diferentes");
             }
-            return new ResultadoRegistro(false, respuesta(existente.get()));
+            return new ResultadoRegistro(false, respuestaPermitida(existente.get()));
         }
         if (!"kg".equalsIgnoreCase(lote.getUnidad())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "La transformacion requiere un lote en kg");
@@ -73,16 +73,18 @@ public class RegistroOperacionService {
             "Operacion asociada al lote " + lote.getCodigo());
         auditoria.registrar("CONSUMO", "LOTE", lote.getCodigo(), "disponible_kg", disponible,
             disponible.subtract(s.cantidadEntradaKg()), "Operacion " + s.codigoOperacion());
-        return new ResultadoRegistro(true, respuesta(operacion));
+        return new ResultadoRegistro(true, respuestaPermitida(operacion));
     }
 
     @Transactional(readOnly = true)
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('OPERADOR', 'ADMINISTRADOR')")
     public List<OperacionRespuesta> listar() {
-        return operaciones.findAll(org.springframework.data.domain.Sort.by("id")).stream().map(this::respuesta).toList();
+        return operaciones.findAll(org.springframework.data.domain.Sort.by("id")).stream().map(this::respuestaPermitida).toList();
     }
 
     // El mismo bloqueo evita combinar inventario y operaciones de instantes distintos.
     @Transactional(isolation = Isolation.READ_COMMITTED)
+    @org.springframework.security.access.prepost.PreAuthorize("hasAnyRole('OPERADOR', 'ADMINISTRADOR')")
     public TrazabilidadLote trazabilidad(String codigo) {
         var lote = lotes.bloquearPorCodigo(codigo).orElseThrow(() ->
             new ResponseStatusException(HttpStatus.NOT_FOUND, "El lote no existe"));
@@ -93,7 +95,20 @@ public class RegistroOperacionService {
         var consumido = registros.stream().map(o -> o.datos().cantidadEntradaKg()).reduce(BigDecimal.ZERO, BigDecimal::add);
         var producido = registros.stream().map(o -> o.datos().cantidadSalidaKg()).reduce(BigDecimal.ZERO, BigDecimal::add);
         return new TrazabilidadLote(lote, lote.getCantidad(), consumido, lote.getCantidad().subtract(consumido),
-            producido, registros.stream().map(this::respuesta).toList());
+            producido, registros.stream().map(this::respuestaPermitida).toList());
+    }
+
+    private OperacionRespuesta respuestaPermitida(RegistroOperacion operacion) {
+        var respuesta = respuesta(operacion);
+        boolean administrador = org.springframework.security.core.context.SecurityContextHolder.getContext()
+            .getAuthentication().getAuthorities().stream().anyMatch(a -> a.getAuthority().equals("ROLE_ADMINISTRADOR"));
+        if (administrador) return respuesta;
+        var s = respuesta.datos();
+        var datosOperativos = new OperacionSolicitud(s.codigoOperacion(), s.loteCodigo(), s.etapa(), s.responsable(),
+            s.fechaOperacion(), s.cantidadEntradaKg(), s.cantidadSalidaKg(), s.observacion(), null, null, null, s.justificacionBalance());
+        return new OperacionRespuesta(respuesta.id(), datosOperativos, respuesta.fechaCreacion(), respuesta.mermaPorcentaje(),
+            respuesta.alertaMerma(), respuesta.causaAlerta(), null, null, respuesta.formulaMerma(), null, null,
+            "Vista operativa. Los costos historicos se consultan como administrador.");
     }
 
     private OperacionRespuesta respuesta(RegistroOperacion o) {

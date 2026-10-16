@@ -1,129 +1,63 @@
-# Aplicativo web "Cacao con historia, calidad y valor"
+# THEOBRA
 
-## Avance verificado: recepción y consulta de lotes
+Aplicación web de trazabilidad para una asociación cacaotera ficticia del Huila. Los datos de demostración son sintéticos y no representan productores ni resultados reales.
 
-**Actualización:** ya se implementó el registro de operaciones, inventario con bloqueo, reenvíos idempotentes y consulta de trazabilidad con merma y costos. La suite completa tiene 19 pruebas aprobadas. Antes de ejecutar esta versión en una base anterior, prepara las columnas nuevas siguiendo [el avance de operaciones e inventario](documentos/AVANCE_OPERACIONES_INVENTARIO.md), que incluye endpoints, ejemplos, migración y limitaciones.
+El frontend integrado que sirve Spring Boot está en `src/main/resources/static/`. La copia `index.html` de la raíz es un prototipo estático anterior; no autentica usuarios ni contiene credenciales de acceso. Usa la aplicación integrada en `http://localhost:8085/`.
 
-Ya están implementados `POST /api/lotes` y `GET /api/lotes` con persistencia en MySQL. Se corrigió el wrapper de Maven en Windows y se verificaron 7 pruebas sin fallos.
+## Funcionalidades
 
-Consulta [la documentación del avance RF01/RF07](documentos/AVANCE_RF01_RF07.md) para ver los archivos cambiados, configuración, comandos, ejemplos de la API, datos de prueba y limitaciones. Las secciones con marcadores pendientes más abajo siguen siendo el borrador de la entrega completa.
+- Autenticación local con correo, BCrypt, sesión HttpOnly y protección CSRF. El rol y los permisos se obtienen del servidor.
+- Registro y consulta de lotes persistidos en MySQL, inventario con bloqueo transaccional, operaciones idempotentes, merma, costos, estados y auditoría.
+- Trazabilidad autenticada y ficha pública RF06 que omite los datos privados y los costos internos.
+- Registro público de compradores en tabla separada, sin asignar permisos internos.
+- Simulador de merma, rendimiento, precio y rentabilidad en el frontend. Es una proyección local basada en el saldo disponible; no escribe en la API ni cambia el inventario.
 
-Para cumplir con los parámetros y requisitos del reto se desarrola un MVP de software para apoyar la trazabilidad de lotes de cacao de una asociación ficticia del Huila. El proyecto se desarrolla dentro del tiempo acordado para el desarrollo del reto, como parte de la II Hackathon de Programación de la Universidad Surcolombiana.
+## Tecnologías
 
-## Descripción general del aplicativo
+Java 21, Spring Boot, Spring Security, Spring Data JPA, MySQL, HTML, CSS y JavaScript.
 
-Su finalidad principal es registrar lotes de cacao, documentar sus operaciones de
-transformación y consultar el recorrido de cada lote. También se está
-construyendo para apoyar el control de cantidades, estados, costos alertas y demas párametros
-definidos en el reto.
-Se aclara que el caso y los datos incluidos son simulados. No representan productores ni
-resultados de campo reales.
+Consulta [la guía de integración y verificación](documentos/INTEGRACION_CACAO_VIVO.md) y las notas de avances [RF01/RF07](documentos/AVANCE_RF01_RF07.md) y [operaciones e inventario](documentos/AVANCE_OPERACIONES_INVENTARIO.md).
 
-## Estado del proyecto
+## Requisitos
 
-Proyecto en desarrollo durante la hackathon.
+- JDK 21 o compatible con Java 21.
+- MySQL accesible desde la máquina local.
+- Node.js para ejecutar las pruebas del frontend.
 
-Funciones implementadas y verificadas: [completar después de probarlas].
+## Preparar MySQL
 
-Funciones parciales o pendientes: [indicar con honestidad].
+La aplicación espera una base llamada `retocacao_db`. En una instalación nueva, ejecutar una vez en MySQL Workbench, en este orden:
 
-## Tecnologías implementadas para el desarrollo
+1. `DB/script_sql.sql`
+2. `DB/tabla_registro_operaciones.sql`
+3. `DB/tabla_de_auditoriacacao.sql`
+4. `DB/tabla_usuario.sql`
+5. `DB/tabla_comprador.sql`
+6. Opcional para registros sintéticos: `DB/datos_demo_reto.sql`
 
-- Java: ---.
-- Spring Boot: ---.
-- MySQL: ----.
-- MySQL Workbench: utilizado para crear y revisar la base de datos.
-- Agregar demas.
+Para una base ya creada, no vuelvas a cargar los datos demo a ciegas. Revisa sus columnas; aplica solo las migraciones aditivas que falten: `DB/creacion_motivo_estado.sql`, `DB/migracion_operaciones_balance.sql` y `DB/migracion_observacion_lote.sql`. Son seguras para volver a ejecutar respecto a esas columnas y no eliminan datos.
 
-## Requisitos previos
+Configura `src/main/resources/application-local.properties` con `spring.datasource.url`, `spring.datasource.username` y `spring.datasource.password`. Ese archivo es local e ignorado por Git; no compartas ni publiques credenciales. El perfil `local` se activa desde `application.properties`.
 
------
+El asistente `scripts/CrearUsuariosLocal.ps1` crea un usuario ADMINISTRADOR y uno OPERADOR de forma interactiva. Requiere una terminal PowerShell real y que la tabla `usuario` ya exista. Cada persona elige sus correos y contraseñas; no hay contraseñas demo por defecto.
 
+## Ejecutar
 
+Desde PowerShell, en la raíz del repositorio:
 
-## Base de datos
+```powershell
+.\mvnw.cmd spring-boot:run "-Dspring-boot.run.arguments=--server.port=8085"
+```
 
-La base de datos se llama `retocacao_db`.
-
-El esquema contiene las tablas:
-
-- `lote`: Registra la recepción y el estado de los lotes.
-- `registro_operaciones`: Registra las operaciones asociadas a un lote.
-- `auditoria_cacao`: Permite conservar registros de cambios realizados.
-
-La estructura y los datos de demostración deben cargarse usando los archivos
-SQL incluidos en `[ruta de los scripts por confirmar]`.
-
-Datos sintéticos de demostración según el reto:
-
-- CAC001: Productor A, Rivera, 100 kg.
-- CAC002: Productor B, Campoalegre, 150 kg.
-- CAC003: Productor C, Algeciras, 80 kg.
-
-Estos se usan únicamente para las pruebas y la demostración del reto.
-
-## Configuración
-
-La aplicación debe conectarse a MySQL. La URL, el usuario y la contraseña se
-configurarán en el entorno local de cada integrante.
-
-Variables de configuración previstas:
-
-- `DB_URL`: dirección de conexión a la base de datos.
-- `DB_USERNAME`: usuario de MySQL.
-- `DB_PASSWORD`: contraseña local de MySQL.
-
-No se deben subir contraseñas, claves ni archivos con credenciales al
-repositorio. El equipo debe confirmar los nombres de variables que realmente
-usa Spring Boot antes de completar esta sección.
-
-## Instalación y ejecución
-
-Pasos pendientes de verificar con el proyecto Spring Boot:
-
-1. Clonar el repositorio.
-2. Crear o cargar la base de datos `retocacao_db` con los scripts SQL.
-3. Configurar las variables de conexión a MySQL.
-4. Instalar o verificar las dependencias del proyecto.
-5. Ejecutar la aplicación.
-
-Comandos de instalación y ejecución: [agregar cuando el equipo los haya
-probado].
+Abre `http://localhost:8085/`. Para iniciar sesión, usa el correo y contraseña que elegiste en el asistente; las cuentas no se crean automáticamente. Si el puerto 8085 está ocupado, detén primero la instancia existente o cambia el puerto en el argumento.
 
 ## Pruebas
 
-Las pruebas automatizadas se encuentran en `[ruta por confirmar]`.
+Desde la raíz del proyecto:
 
-Comando para ejecutarlas: [agregar cuando esté confirmado y probado].
-
-Los casos manuales, sus resultados y evidencias se documentarán en
-`documentos/E05_pruebas.pdf`.
-
-## Usuarios de demostración
-
-Usuarios y roles de prueba: [completar cuando estén creados y verificados].
-
-No incluir cuentas personales ni contraseñas reales.
-
-## Respaldo y recuperación
-
-Archivo de respaldo: [ruta por confirmar].
-
-Pasos para restaurarlo: [documentar después de probar la recuperación].
-
-Después de restaurar, verificar que se recuperen los identificadores y las
-cantidades de los lotes de demostración.
-
-## Limitaciones conocidas
-
-[Registrar aquí únicamente limitaciones que el equipo haya comprobado.]
-
-## Documentación adicional
-
-Los entregables y evidencias del reto se encuentran en:
-
-- `ENTREGA.md`: índice de entrega, enlaces y versión final.
-- `documentos/`: requisitos, diseño, pruebas, usabilidad, operación y declaración
-  de herramientas y componentes.
-- `datos/`: datos sintéticos y respaldo, cuando estén disponibles.
-- `pitch/`: presentación comercial, cuando esté disponible.
+```powershell
+.\mvnw.cmd test
+node --test src/test/js/frontend.test.cjs
+node --check src/main/resources/static/js/app.js
+node --check src/main/resources/static/js/api.js
+```
