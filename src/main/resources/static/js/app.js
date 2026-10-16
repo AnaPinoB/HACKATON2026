@@ -495,14 +495,60 @@ async function renderPublic(code, target = '#publicCard') {
     const box = $(target); box.hidden = false; box.textContent = 'Consultando lote...';
     const requestId = String(Date.now()) + Math.random(); box.dataset.requestId = requestId;
     try {
-        const p = await api.request('/api/publico/productos/' + encodeURIComponent(code.trim()), {quiet:true});
+        const productCode = code.trim();
+        if (!productCode) {
+            box.textContent = 'Escribe el código del lote para consultar su ficha pública.';
+            return;
+        }
+        const p = await api.request('/api/publico/productos/' + encodeURIComponent(productCode), {quiet:true});
         if (box.dataset.requestId !== requestId) return;
-        box.innerHTML = '<span class="overline">FICHA PÚBLICA · ' + esc(p.codigo) + '</span><h3>Cacao de ' + esc(p.origen) + '</h3>' +
-            '<p>Recepción: ' + esc(p.fechaRecepcion) + ' · Cantidad recibida: ' + fmt(p.cantidadRecibida) + ' ' + esc(p.unidad) + '</p>' +
-            '<p>Estado: ' + esc(label(p.estado)) + ' · Disponible para venta: ' + (p.disponibleParaVenta ? 'Sí' : 'No') + '</p>' +
-            p.trazabilidad.map(e => '<p>' + esc(e.fecha) + ' · ' + esc(e.etapa) + ': ' + fmt(e.cantidadEntradaKg) + ' kg → ' + fmt(e.cantidadSalidaKg) + ' kg.</p>').join('') +
-            '<p class="fine-print">No se muestran costos internos ni datos privados.</p>';
-    } catch(error) { if (box.dataset.requestId === requestId) box.textContent = error.message; }
+        const estado = String(p.estado || '').toUpperCase();
+        const estadoLabel = label(estado);
+        const disponibilidad = p.disponibleParaVenta
+            ? 'Disponible para comercialización'
+            : estado === 'BLOQUEADO'
+                ? 'No disponible para comercialización: lote bloqueado'
+                : 'No disponible para comercialización';
+        const etapas = Array.isArray(p.trazabilidad) ? p.trazabilidad : [];
+        const recepcion = `<li class="public-trace-step">
+            <span class="public-trace-marker" aria-hidden="true">01</span>
+            <div><h4>Recepción del lote</h4>
+                <p>${fmt(p.cantidadRecibida)} ${esc(p.unidad)} recibidos el ${esc(p.fechaRecepcion)}.</p>
+            </div>
+        </li>`;
+        const transformaciones = etapas.map((etapa, index) => `<li class="public-trace-step">
+            <span class="public-trace-marker" aria-hidden="true">${String(index + 2).padStart(2, '0')}</span>
+            <div><h4>${esc(etapa.etapa)}</h4>
+                <p>${esc(etapa.fecha)} · Entrada ${fmt(etapa.cantidadEntradaKg)} kg → salida ${fmt(etapa.cantidadSalidaKg)} kg.</p>
+            </div>
+        </li>`).join('');
+        const avisoEtapas = etapas.length
+            ? ''
+            : '<p class="public-trace-empty">El lote fue recibido. Aún no hay etapas de transformación registradas.</p>';
+        box.innerHTML = `<article class="public-product-card">
+            <header class="public-product-heading">
+                <div><span class="overline">FICHA PÚBLICA · LOTE ${esc(p.codigo)}</span>
+                    <h3>Producto de cacao</h3></div>
+                <span class="public-status public-status-${esc(estado.toLowerCase())}">${esc(estadoLabel)}</span>
+            </header>
+            <dl class="public-product-details">
+                <div><dt>Productor</dt><dd>${esc(p.productor)}</dd></div>
+                <div><dt>Origen</dt><dd>${esc(p.origen)}</dd></div>
+                <div><dt>Estado comercial</dt><dd>${esc(disponibilidad)}</dd></div>
+            </dl>
+            <section class="public-trace" aria-label="Trazabilidad del lote">
+                <h4>Recorrido del producto</h4>
+                ${avisoEtapas}
+                <ol>${recepcion}${transformaciones}</ol>
+            </section>
+            <p class="fine-print">Esta ficha muestra datos públicos del lote y sus etapas registradas; no incluye costos ni información administrativa.</p>
+        </article>`;
+    } catch(error) {
+        if (box.dataset.requestId !== requestId) return;
+        box.textContent = error.status === 404
+            ? 'No se encontró un lote con ese código. Verifica el identificador e inténtalo de nuevo.'
+            : 'No se pudo consultar la ficha pública: ' + error.message;
+    }
 }
 
 function modal(id, show = true) {

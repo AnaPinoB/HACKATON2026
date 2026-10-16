@@ -61,10 +61,15 @@ class IntegracionWebTests {
         var op = login(operador); var adm = login(admin);
         mvc.perform(get("/api/cuenta").session(op.session())).andExpect(status().isOk())
             .andExpect(jsonPath("$.correo").value(operador)).andExpect(jsonPath("$.permisos[0]").value("ROLE_OPERADOR"));
-        String recepcion = json.writeValueAsString(Map.of("codigo",lote,"productor","Productor privado",
+        String recepcion = json.writeValueAsString(Map.of("codigo",lote,"productor","Productor de prueba",
             "origen","Rivera","fecha","2026-10-16","cantidad",100,"unidad","kg","observacion","Nota privada"));
         mvc.perform(post("/api/lotes").session(op.session()).header(op.header(),op.token()).contentType("application/json").content(recepcion))
             .andExpect(status().isCreated()).andExpect(jsonPath("$.observacion").value("Nota privada"));
+        mvc.perform(get("/api/publico/productos/{codigo}",lote))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$.productor").value("Productor de prueba"))
+            .andExpect(jsonPath("$.estado").value("PENDIENTE"))
+            .andExpect(jsonPath("$.disponibleParaVenta").value(false));
         String transformacion = """
             {"codigoOperacion":"%s","loteCodigo":"%s","etapa":"Seleccion","responsable":"Responsable privado",
             "fechaOperacion":"2026-10-16","cantidadEntradaKg":100,"cantidadSalidaKg":80,"costoTotal":1600000,
@@ -90,14 +95,21 @@ class IntegracionWebTests {
         mvc.perform(patch("/api/lotes/{codigo}/estado",lote).session(adm.session()).header(adm.header(),adm.token()).contentType("application/json").content(liberar))
             .andExpect(status().isOk());
         var publico = mvc.perform(get("/api/publico/productos/{codigo}",lote)).andExpect(status().isOk())
+            .andExpect(jsonPath("$.codigo").value(lote))
+            .andExpect(jsonPath("$.productor").value("Productor de prueba"))
+            .andExpect(jsonPath("$.origen").value("Rivera"))
+            .andExpect(jsonPath("$.cantidadRecibida").value(100))
+            .andExpect(jsonPath("$.estado").value("LIBERADO"))
             .andExpect(jsonPath("$.disponibleParaVenta").value(true)).andExpect(jsonPath("$.trazabilidad.length()").value(1)).andReturn();
         String publicoJson = publico.getResponse().getContentAsString();
-        for (String privado : List.of("costo", "precio", "productor", "responsable", "Nota privada", "motivo"))
+        for (String privado : List.of("costo", "precio", "responsable", "Nota privada", "motivoEstado", "Control realizado"))
             assertFalse(publicoJson.toLowerCase().contains(privado.toLowerCase()),privado);
         mvc.perform(patch("/api/lotes/{codigo}/estado",lote).session(adm.session()).header(adm.header(),adm.token()).contentType("application/json")
             .content("{\"estado\":\"BLOQUEADO\",\"motivo\":\"Incidencia\"}")).andExpect(status().isOk());
-        mvc.perform(get("/api/publico/productos/{codigo}",lote)).andExpect(status().isOk())
-            .andExpect(jsonPath("$.estado").value("BLOQUEADO")).andExpect(jsonPath("$.disponibleParaVenta").value(false));
+        var fichaBloqueada = mvc.perform(get("/api/publico/productos/{codigo}",lote)).andExpect(status().isOk())
+            .andExpect(jsonPath("$.estado").value("BLOQUEADO")).andExpect(jsonPath("$.disponibleParaVenta").value(false))
+            .andReturn();
+        assertFalse(fichaBloqueada.getResponse().getContentAsString().contains("Incidencia"));
         mvc.perform(get("/api/lotes/{codigo}/auditoria",lote).session(adm.session())).andExpect(status().isOk())
             .andExpect(jsonPath("$.length()").value(5));
         mvc.perform(post("/api/logout").session(op.session()).header(op.header(),op.token())).andExpect(status().isNoContent());

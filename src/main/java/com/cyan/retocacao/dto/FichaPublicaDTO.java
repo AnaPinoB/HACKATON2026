@@ -7,6 +7,7 @@ import java.util.List;
 
 public record FichaPublicaDTO(
     String codigo,
+    String productor,
     String origen,
     LocalDate fechaRecepcion,
     BigDecimal cantidadRecibida,

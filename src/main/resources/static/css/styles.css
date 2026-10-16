@@ -561,6 +561,128 @@ h2 em {
     color:var(--muted)
 }
 
+.public-product-card {
+    display:grid;
+    gap:20px
+}
+
+.public-product-heading {
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap:16px
+}
+
+.public-product-heading h3 {
+    margin:8px 0 0;
+    color:var(--ink);
+    font:600 24px/1.2 var(--serif)
+}
+
+.public-status {
+    flex:0 0 auto;
+    padding:8px 11px;
+    border-radius:999px;
+    background:#ede9de;
+    color:#57584f;
+    font-size:10px;
+    font-weight:700
+}
+
+.public-status-liberado {
+    background:#e3eddd;
+    color:#355a36
+}
+
+.public-status-bloqueado {
+    background:#f4dfd9;
+    color:#8a3528
+}
+
+.public-product-details {
+    display:grid;
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:12px;
+    margin:0
+}
+
+.public-product-details>div {
+    min-width:0;
+    padding:12px;
+    background:#f7f4ec
+}
+
+.public-product-details dt {
+    margin-bottom:5px;
+    color:var(--muted);
+    font-size:9px;
+    font-weight:700;
+    letter-spacing:.5px;
+    text-transform:uppercase
+}
+
+.public-product-details dd {
+    margin:0;
+    color:var(--ink);
+    font-size:12px;
+    overflow-wrap:anywhere
+}
+
+.public-trace {
+    border-top:1px solid var(--line);
+    padding-top:16px
+}
+
+.public-trace>h4 {
+    margin:0 0 12px;
+    color:var(--ink);
+    font-size:12px
+}
+
+.public-trace ol {
+    display:grid;
+    gap:12px;
+    margin:0;
+    padding:0;
+    list-style:none
+}
+
+.public-trace-step {
+    display:grid;
+    grid-template-columns:30px minmax(0,1fr);
+    gap:10px;
+    align-items:start
+}
+
+.public-trace-marker {
+    display:grid;
+    width:28px;
+    height:28px;
+    place-items:center;
+    border-radius:50%;
+    background:#e7ecdf;
+    color:var(--green-dark);
+    font-size:9px;
+    font-weight:700
+}
+
+.public-trace-step h4 {
+    margin:2px 0 4px;
+    color:var(--ink);
+    font-size:11px
+}
+
+.public-trace-step p,.public-trace-empty {
+    margin:0;
+    color:var(--muted);
+    font-size:10px;
+    line-height:1.7
+}
+
+.public-trace-empty {
+    margin-bottom:12px
+}
+
 .public-footer {
     display:flex;
     justify-content:space-between;
@@ -1469,6 +1591,14 @@ td:first-child {
         gap:20px;
         padding-top:65px;
         padding-bottom:65px
+    }
+
+    .public-product-heading {
+        flex-direction:column
+    }
+
+    .public-product-details {
+        grid-template-columns:1fr
     }
 
     .public-footer {

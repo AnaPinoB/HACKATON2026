@@ -32,7 +32,7 @@ Trabajo realizado en `integración`, sin commits, push ni cambios de rama. Se co
 - Registro y consulta de lotes persistidos, incluidas observaciones de hasta 2000 caracteres.
 - Registro de operaciones con inventario, merma, costos y validaciones del backend. Se conserva el código de operación durante reintentos del mismo formulario para evitar duplicados. Un rechazo de validación permite corregir los datos de los diálogos.
 - Trazabilidad real para ambos roles. Las consultas y respuestas al registrar o reintentar operaciones como OPERADOR excluyen costos históricos; ADMINISTRADOR dispone de costos, auditoría y cambios de estado con motivo obligatorio.
-- Ficha pública RF06 sin sesión mediante el DTO público existente, sin datos privados ni costos. Los enlaces `?lote=CODIGO` permiten consultar un lote.
+- Ficha pública RF06 sin sesión mediante un DTO dedicado: muestra código, productor y origen guardados en MySQL, estado, disponibilidad y etapas registradas, sin exponer observaciones, responsables, costos ni datos administrativos. El comprador consulta por código o mediante enlaces `?lote=CODIGO`.
 - Filtros y exportación CSV del frontend para administrador, con escape de fórmulas de hojas de cálculo.
 - Registro público de compradores en tabla separada, contraseña BCrypt y sin otorgar acceso de operador o administrador. No existe un portal autenticado de comprador en este alcance.
 - Simulador local de merma, rendimiento, precio y rentabilidad basado en el saldo disponible de un lote. Sus entradas son independientes del formulario de operación y no se envían a la API ni se guardan.
@@ -76,7 +76,7 @@ Además del asistente PowerShell descrito antes, la ruta manual desde Workbench 
 ## Verificación realizada
 
 - `./mvnw.cmd -B test`: **36 pruebas aprobadas**, cero fallos y errores; compilación correcta. Incluye pruebas contra MySQL con datos temporales de prueba y limpieza de sus fixtures, login y sesión reales en MockMvc, CSRF, permisos, inventario, reintentos, estados, auditoría y ficha pública.
-- `node --test src/test/js/frontend.test.cjs`: **14 pruebas aprobadas**. Usa DOM simulado y API controlada; cubre sesión, cierre de sesión, ausencia de credenciales demo, rol del servidor, payloads, reintentos, trazabilidad, RF06, expiración, CSRF y simulación sin persistencia. No sustituye una prueba completa del navegador autenticado.
+- `node --test src/test/js/frontend.test.cjs`: **16 pruebas aprobadas**. Usa DOM simulado y API controlada; cubre sesión, cierre de sesión, ausencia de credenciales demo, rol del servidor, payloads, reintentos, trazabilidad pública, estado bloqueado, enlace `?lote=CODIGO`, error de lote inexistente, expiración, CSRF y simulación sin persistencia. No sustituye una prueba completa del navegador autenticado.
 - `node --check` para `app.js` y `api.js`: sintaxis válida.
 - Generador BCrypt compilado con la dependencia local de Spring Security.
 - Navegador conectado a la aplicación en `http://localhost:8085`: consulta pública real de CAC001 verificada, sin solicitar sesión ni exponer datos privados.

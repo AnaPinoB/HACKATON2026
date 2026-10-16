@@ -34,3 +34,5 @@ build/
 
 
 src/main/resources/application-local.properties
+**/application-local.properties
+/src_respaldo_temporal/
