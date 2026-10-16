@@ -24,11 +24,13 @@ public class RegistroOperacionService {
     private final MermaService mermas;
     private final CostoService costos;
     private final EntityManager em;
+    private final AuditoriaService auditoria;
 
     public RegistroOperacionService(LoteRepository lotes, RegistroOperacionRepository operaciones,
-        MermaService mermas, CostoService costos, EntityManager em) {
+        MermaService mermas, CostoService costos, EntityManager em, AuditoriaService auditoria) {
         this.lotes = lotes; this.operaciones = operaciones; this.mermas = mermas;
         this.costos = costos; this.em = em;
+        this.auditoria = auditoria;
     }
 
     public record ResultadoRegistro(boolean creada, OperacionRespuesta operacion) {}
@@ -67,6 +69,10 @@ public class RegistroOperacionService {
         }
         var operacion = operaciones.saveAndFlush(new RegistroOperacion(s));
         em.refresh(operacion);
+        auditoria.registrar("TRANSFORMACION", "OPERACION", s.codigoOperacion(), "registro", null, s,
+            "Operacion asociada al lote " + lote.getCodigo());
+        auditoria.registrar("CONSUMO", "LOTE", lote.getCodigo(), "disponible_kg", disponible,
+            disponible.subtract(s.cantidadEntradaKg()), "Operacion " + s.codigoOperacion());
         return new ResultadoRegistro(true, respuesta(operacion));
     }
 

@@ -2,7 +2,7 @@ USE retocacao_db;
 
 CREATE TABLE IF NOT EXISTS auditoria_cacao (
     id_auditoria BIGINT AUTO_INCREMENT PRIMARY KEY,
-    usuario_encargado VARCHAR(120) NOT NULL,
+    usuario_encargado VARCHAR(150) NOT NULL,
     accion VARCHAR(40) NOT NULL,
     tipo_registro VARCHAR(40) NOT NULL,
     registro_id VARCHAR(36) NOT NULL,

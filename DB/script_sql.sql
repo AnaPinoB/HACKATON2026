@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS lote (
     cantidad DECIMAL(10,2) NOT NULL,
     unidad VARCHAR(10) NOT NULL DEFAULT 'kg',
     estado_lote VARCHAR(20) NOT NULL DEFAULT 'PENDIENTE',
+    motivo_estado VARCHAR(255),
     fecha_creacion_registro_lote TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT chk_lote_cantidad
         CHECK (cantidad > 0),

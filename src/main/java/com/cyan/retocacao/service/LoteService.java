@@ -18,13 +18,16 @@ public class LoteService {
 
     private final LoteRepository loteRepository;
     private final LoteRegistroRepository registroRepository;
+    private final AuditoriaService auditoria;
 
-    public LoteService(LoteRepository loteRepository, LoteRegistroRepository registroRepository) {
+    public LoteService(LoteRepository loteRepository, LoteRegistroRepository registroRepository, AuditoriaService auditoria) {
         this.loteRepository = loteRepository;
         this.registroRepository = registroRepository;
+        this.auditoria = auditoria;
     }
 
     // RF01: Registrar un lote de cacao
+    @org.springframework.transaction.annotation.Transactional
     public Lote registrarLote(Lote lote) {
 
         if (lote == null) {
@@ -105,9 +108,12 @@ public class LoteService {
 
         // Evitar que el cliente establezca el estado inicial
         lote.setEstadoLote("PENDIENTE");
+        lote.setMotivoEstado(null);
 
         // Guardar en MySQL
-        return registroRepository.insertar(lote);
+        var guardado = registroRepository.insertar(lote);
+        auditoria.registrar("RECEPCION", "LOTE", lote.getCodigo(), "registro", null, guardado, "Recepcion inicial");
+        return guardado;
     }
 
     // Consultar todos los lotes

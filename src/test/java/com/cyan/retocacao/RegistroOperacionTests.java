@@ -42,6 +42,8 @@ class RegistroOperacionTests {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
     @AfterEach void limpiar() {
+        jdbc.update("DELETE FROM auditoria_cacao WHERE (tipo_registro='LOTE' AND registro_id=?) OR " +
+            "(tipo_registro='OPERACION' AND registro_id IN (SELECT codigo_operacion FROM registro_operaciones WHERE lote_codigo=?))", lote, lote);
         jdbc.update("DELETE FROM registro_operaciones WHERE lote_codigo = ?", lote);
         jdbc.update("DELETE FROM lote WHERE codigo = ?", lote);
     }

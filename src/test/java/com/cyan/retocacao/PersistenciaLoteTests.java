@@ -54,8 +54,12 @@ class PersistenciaLoteTests {
                 assertEquals(0, new BigDecimal("2.50").compareTo(traza.disponibleKg()));
                 assertEquals(1, traza.operaciones().size());
                 assertFalse(operaciones.registrar(operacion).creada());
+                assertEquals(3, segunda.getBean(com.cyan.retocacao.service.AuditoriaService.class).porLote(codigo).size());
             } finally {
                 // Solo eliminar el registro sintetico creado por esta prueba.
+                segunda.getBean(org.springframework.jdbc.core.JdbcTemplate.class).update(
+                    "DELETE FROM auditoria_cacao WHERE (tipo_registro='LOTE' AND registro_id=?) OR " +
+                    "(tipo_registro='OPERACION' AND registro_id=?)", codigo, operacion.codigoOperacion());
                 segunda.getBean(org.springframework.jdbc.core.JdbcTemplate.class)
                     .update("DELETE FROM registro_operaciones WHERE lote_codigo = ?", codigo);
                 repository.deleteById(codigo);

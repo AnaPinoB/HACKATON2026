@@ -32,6 +32,12 @@ public class Lote {
     @Column(name = "estado_lote", nullable = false, length = 20)
     private String estadoLote = "PENDIENTE";
 
+    @Column(name = "motivo_estado", length = 255)
+    private String motivoEstado;
+
+    public String getMotivoEstado() { return motivoEstado; }
+    public void setMotivoEstado(String motivoEstado) { this.motivoEstado = motivoEstado; }
+
     @Column(name = "fecha_creacion_registro_lote",
             insertable = false, updatable = false)
     private LocalDateTime fechaCreacionRegistroLote;
