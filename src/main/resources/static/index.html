@@ -12,8 +12,8 @@
   <!-- PANTALLA 1: landing pública -->
   <div id="landingScreen" class="screen active">
     <header class="public-nav">
-      <a class="brand" href="#inicio"><span class="brand-symbol">cv<span>✳</span></span><span><b>THEOBRA</b><small>TRAZABILIDAD CON ORIGEN</small></span></a>
-      <nav><a href="#historia">Nuestra esencia</a><a href="#recorrido">El recorrido</a><a href="#consulta">Consultar lote</a></nav>
+      <a class="brand" href="#inicio"><span class="brand-symbol"><img src="assets/theobra-logo.png" alt="" style="width:42px;height:42px;object-fit:cover;border-radius:50%"></span><span><b>THEOBRA</b><small>TRAZABILIDAD CON ORIGEN</small></span></a>
+      <nav><a href="#recorrido">El recorrido</a><a href="#consulta">Consultar lote</a></nav>
       <button class="btn btn-outline" data-enter>Entrar a plataforma <span>↗</span></button>
     </header>
     <main>
@@ -30,12 +30,7 @@
           <div class="hero-caption"><span class="live-dot"></span> Origen transparente. Decisiones con sentido.</div>
         </div>
         <div class="hero-vertical">CACAO · TERRITORIO · CONFIANZA</div>
-        <a href="#historia" class="scroll-cue">DESCUBRE CACAO VIVO <span>↓</span></a>
-      </section>
-
-      <section class="story-section content-width" id="historia">
-        <div class="story-copy"><p class="eyebrow"><span></span> UNA HISTORIA QUE MERECE SER CONTADA</p><h2>Del árbol al lote.<br><em>Del lote a la confianza.</em></h2><p class="lead">El cacao no empieza en una barra de chocolate. Empieza en la tierra, en el cuidado del cultivo y en las manos que lo hacen posible.</p><p class="muted">CACAO VIVO organiza la información de recepción, transformación, inventario y origen para que una asociación pueda tomar decisiones informadas y compartir con compradores una historia verificable.</p><button class="text-button" data-enter>Explorar la plataforma <span>→</span></button></div>
-        <div class="story-photos"><img class="story-photo-main" src="assets/hero-cacao.png" alt="Mazorca de cacao madura creciendo en el árbol, rodeada de hojas verdes" loading="lazy"><div class="origin-badge"><small>ORIGEN</small><b>HUILA</b><small>COLOMBIA</small></div></div>
+        <a href="#historia" class="scroll-cue">DESCUBRE THEOBRA <span>↓</span></a>
       </section>
 
       <section class="journey-section" id="recorrido">
@@ -51,13 +46,13 @@
 
       <section class="public-query content-width" id="consulta"><div><p class="eyebrow"><span></span> CONSULTA PÚBLICA</p><h2>¿Conoces el código<br>de tu <em>lote?</em></h2><p class="muted">Consulta su origen y estado. Los costos internos y datos privados no se muestran en esta vista.</p></div><form id="landingLookup" class="lookup-box"><label for="landingCode">Código del lote</label><div class="input-row"><input id="landingCode" value="CAC001" required placeholder="Ej. CAC001"><button class="btn btn-green" type="submit">Consultar <span>→</span></button></div><div id="landingResult" class="lookup-result" hidden></div></form></section>
     </main>
-    <footer class="public-footer"><a class="brand" href="#inicio"><span class="brand-symbol">cv<span>✳</span></span><span><b>CACAO VIVO</b><small>TRAZABILIDAD CON ORIGEN</small></span></a><p>Una historia transparente desde el Huila, Colombia.</p><span>PROTOTIPO · DATOS SINTÉTICOS</span></footer>
+    <footer class="public-footer"><a class="brand" href="#inicio"><span class="brand-symbol"><img src="assets/theobra-logo.png" alt="" style="width:42px;height:42px;object-fit:cover;border-radius:50%"></span><span><b>THEOBRA</b><small>TRAZABILIDAD CON ORIGEN</small></span></a><p>Una historia transparente desde el Huila, Colombia.</p><span>PROTOTIPO · DATOS SINTÉTICOS</span></footer>
   </div>
 
   <!-- PANTALLA 2+ : aplicación de gestión, con navegación entre pantallas -->
   <div id="appScreen" class="screen app-screen">
     <aside class="sidebar">
-      <a class="brand side-brand" href="#" id="backHome"><span class="brand-symbol">cv<span>✳</span></span><span><b>CACAO VIVO</b><small>ESPACIO DE GESTIÓN</small></span></a>
+      <a class="brand side-brand" href="#" id="backHome"><span class="brand-symbol"><img src="assets/theobra-logo.png" alt="" style="width:42px;height:42px;object-fit:cover;border-radius:50%"></span><span><b>THEOBRA</b><small>ESPACIO DE GESTIÓN</small></span></a>
       <div class="workspace-label">ASOCIACIÓN DEMO</div>
       <nav class="side-nav" aria-label="Menú de plataforma">
         <button class="side-link active" data-page="dashboard"><span>◫</span> Resumen</button>
@@ -71,7 +66,7 @@
       <div class="sidebar-bottom"><div class="user-avatar">AD</div><div><b id="sidebarUser">Sin sesión</b><small>Sesión de la asociación</small></div><button id="switchRole" title="Cambiar rol demo">⌄</button></div>
     </aside>
     <div class="app-main">
-      <header class="app-topbar"><div><button class="mobile-menu" id="mobileMenu">☰</button><span class="crumb">CACAO VIVO <span>/</span> <b id="pageCrumb">Resumen</b></span></div><div class="topbar-right"><span class="demo-tag"><i></i> REGISTROS DE LA ASOCIACIÓN</span><button class="logout-btn" id="logoutButton" type="button" hidden>Cerrar sesión</button><button class="avatar-btn" id="userMenu" type="button" aria-label="Cerrar sesión" title="Cerrar sesión">AD</button></div></header>
+      <header class="app-topbar"><div><button class="mobile-menu" id="mobileMenu">☰</button><span class="crumb">THEOBRA <span>/</span> <b id="pageCrumb">Resumen</b></span></div><div class="topbar-right"><span class="demo-tag"><i></i> REGISTROS DE LA ASOCIACIÓN</span><button class="logout-btn" id="logoutButton" type="button" hidden>Cerrar sesión</button><button class="avatar-btn" id="userMenu" type="button" aria-label="Cerrar sesión" title="Cerrar sesión">AD</button></div></header>
       <main class="app-content">
         <section class="app-page active" id="page-dashboard">
           <div class="page-title-row"><div><p class="eyebrow"><span></span> VISTA GENERAL</p><h1>Buenos días, <em id="welcomeRole">administrador.</em></h1><p class="muted">Aquí tienes el estado actual de los lotes y sus procesos.</p></div><button class="btn btn-green" data-page-go="lots">+ Registrar lote</button></div>

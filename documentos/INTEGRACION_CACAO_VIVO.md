@@ -1,4 +1,4 @@
-# Integración CACAO VIVO — 16 de octubre de 2026
+# Integración THEOBRA — 16 de octubre de 2026
 
 ## Mejora del flujo de prueba
 
