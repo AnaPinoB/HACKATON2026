@@ -1,4 +1,3 @@
-
 package com.cyan.retocacao.service;
 
 import com.cyan.retocacao.model.Lote;
