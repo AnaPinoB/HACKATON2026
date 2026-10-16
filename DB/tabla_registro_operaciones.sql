@@ -12,6 +12,8 @@ CREATE TABLE IF NOT EXISTS registro_operaciones (
     observacion TEXT,
     costo_total DECIMAL(12,2) NOT NULL DEFAULT 0.00,
     precio_venta_kg DECIMAL(12,2),
+    costos_incluidos VARCHAR(500),
+    justificacion_balance VARCHAR(500),
     fecha_creacion_registro TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT fk_operacion_lote

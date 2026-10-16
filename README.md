@@ -2,6 +2,8 @@
 
 ## Avance verificado: recepción y consulta de lotes
 
+**Actualización:** ya se implementó el registro de operaciones, inventario con bloqueo, reenvíos idempotentes y consulta de trazabilidad con merma y costos. La suite completa tiene 19 pruebas aprobadas. Antes de ejecutar esta versión en una base anterior, prepara las columnas nuevas siguiendo [el avance de operaciones e inventario](documentos/AVANCE_OPERACIONES_INVENTARIO.md), que incluye endpoints, ejemplos, migración y limitaciones.
+
 Ya están implementados `POST /api/lotes` y `GET /api/lotes` con persistencia en MySQL. Se corrigió el wrapper de Maven en Windows y se verificaron 7 pruebas sin fallos.
 
 Consulta [la documentación del avance RF01/RF07](documentos/AVANCE_RF01_RF07.md) para ver los archivos cambiados, configuración, comandos, ejemplos de la API, datos de prueba y limitaciones. Las secciones con marcadores pendientes más abajo siguen siendo el borrador de la entrega completa.
